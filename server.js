@@ -12,20 +12,21 @@ app.use(express.static(__dirname));
 const db = new Database('./database.db', { verbose: console.log });
 console.log("Awesome! better-sqlite3 database successfully connected!");
 
-//Create tables for users and notes
+// Create tables for users and notes
 const createTablesQuery = `
     CREATE TABLE IF NOT EXISTS users(
         id INTEGER PRIMARY KEY AUTOINCREMENT, 
-        username STRING NOT NULL UNIQUE, 
-        password STRING NOT NULL 
+        username TEXT NOT NULL UNIQUE, 
+        password TEXT NOT NULL 
     );
     CREATE TABLE IF NOT EXISTS notes(
         id INTEGER PRIMARY KEY AUTOINCREMENT, 
         user_id INTEGER NOT NULL, 
-        title STRING NOT NULL, 
+        title TEXT NOT NULL, 
         content TEXT NOT NULL
     );
 `;
+
 db.exec(createTablesQuery); 
 console.log("Database tables are ready to go!");
 
