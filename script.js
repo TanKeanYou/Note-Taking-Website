@@ -9,7 +9,8 @@ if (registerForm) {
         const password = document.getElementById('password').value;
 
         try {
-            const response = await fetch('http://localhost:3000/register', {
+            // 🌟 Changed to relative URL
+            const response = await fetch('/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username: username, password: password }) 
@@ -17,12 +18,10 @@ if (registerForm) {
 
             const result = await response.json();
             if (response.ok) {
-                //Display green success message
                 messageBox.style.color = "green";
                 messageBox.innerText = result.message + " Redirecting to Login page...";
                 registerForm.reset(); 
 
-                //Automatic Redirection- Wait 1.5 seconds then navigate to login.html
                 setTimeout(() => {
                     window.location.href = 'login.html';
                 }, 1500);
@@ -49,7 +48,8 @@ if (loginForm) {
         const password = document.getElementById('loginPassword').value;
 
         try {
-            const response = await fetch('http://localhost:3000/login', {
+            // 🌟 Changed to relative URL
+            const response = await fetch('/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username: username, password: password })
@@ -60,7 +60,6 @@ if (loginForm) {
                 loginMessageBox.style.color = "green";
                 loginMessageBox.innerText = result.message;
                 
-                //Store user session data in browser
                 localStorage.setItem('loggedInUserId', result.userId);
                 localStorage.setItem('loggedInUsername', result.username);
 
@@ -103,7 +102,8 @@ if (createNoteForm) {
         const noteMessageBox = document.getElementById('noteMessageBox');
 
         try {
-            const response = await fetch('http://localhost:3000/notes', {
+            // 🌟 Changed to relative URL
+            const response = await fetch('/notes', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ userId: currentUserId, title: title, content: content })
@@ -129,22 +129,20 @@ if (createNoteForm) {
 //FETCH & DISPLAY NOTES
     async function fetchMyNotes() {
         try {
-            const response = await fetch(`http://localhost:3000/notes/${currentUserId}`);
+            // 🌟 Changed to relative URL
+            const response = await fetch(`/notes/${currentUserId}`);
             const notes = await response.json();
             notesContainer.innerHTML = ''; 
 
             if (notes.length === 0) {
-                // Display this message if the user has no notes yet
                 notesContainer.innerHTML = `<div class="col-12 text-center mt-4"><p class="text-secondary">No notes yet! Start typing your brilliant ideas!</p></div>`;
                 return;
             }
 
             notes.forEach(note => {
-                // Ultimate bulletproof vest: Convert single quotes, double quotes, and newlines to prevent HTML structure from breaking
                 const safeTitle = String(note.title).replace(/'/g, "\\'").replace(/"/g, "&quot;").replace(/\n/g, "\\n");
                 const safeContent = String(note.content).replace(/'/g, "\\'").replace(/"/g, "&quot;").replace(/\n/g, "\\n");
 
-                // We use template literals (backticks) to build the HTML string inside JavaScript
                 const noteCard = /*html*/`
                     <div class="col-md-6 col-lg-4 mb-4">
                         <div class="card glass-card border-0 h-100" style="transition: transform 0.2s;">
@@ -157,7 +155,6 @@ if (createNoteForm) {
                                     <p class="card-text text-dark" style="white-space: pre-wrap; margin-bottom: 0;">${note.content}</p>
                                 </div>
                                 
-                                <!-- Button Section: Using d-flex and flex-grow-1 to distribute space equally and beautifully -->
                                 <div class="d-flex justify-content-between mt-4 pt-3 border-top">
                                     <button class="btn btn-sm btn-outline-success rounded-pill fw-bold flex-grow-1 mx-1" 
                                         onclick="openViewModal('${safeTitle}', '${safeContent}')">
@@ -177,7 +174,6 @@ if (createNoteForm) {
                         </div>
                     </div>
                 `;
-                //Inject the generated HTML string card into the webpage container
                 notesContainer.insertAdjacentHTML('beforeend', noteCard);
             });
         } catch (error) {
@@ -190,14 +186,14 @@ if (createNoteForm) {
         if (!confirm("Are you sure you want to delete this note?")) return;
 
         try {
-            const response = await fetch(`http://localhost:3000/notes/${noteId}`, {
+            // 🌟 Changed to relative URL
+            const response = await fetch(`/notes/${noteId}`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ userId: Number(currentUserId) }) 
             });
 
             if (response.ok) {
-                // 🌟 await ensures the list re-fetches before moving on!
                 await fetchMyNotes(); 
             } else {
                 const result = await response.json();
@@ -216,7 +212,8 @@ if (createNoteForm) {
         const newContent = document.getElementById('editNoteContent').value;
 
         try {
-            const response = await fetch(`http://localhost:3000/notes/${noteId}`, {
+            // 🌟 Changed to relative URL
+            const response = await fetch(`/notes/${noteId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ userId: Number(currentUserId), title: newTitle, content: newContent })
@@ -224,7 +221,7 @@ if (createNoteForm) {
 
             if (response.ok) {
                 if (editModal) editModal.hide(); 
-                await fetchMyNotes(); // 🌟 await the updated note list
+                await fetchMyNotes(); 
             } else {
                 alert("Failed to update the note!");
             }
@@ -239,7 +236,6 @@ if (createNoteForm) {
         viewModal = new bootstrap.Modal(document.getElementById('viewNoteModal'));
     }
     window.openViewModal = (title, content) => {
-        //use inner html
         document.getElementById('viewNoteTitle').innerHTML = title;
         document.getElementById('viewNoteContent').innerHTML = content;
         if (viewModal) viewModal.show(); 
@@ -256,31 +252,6 @@ if (createNoteForm) {
         document.getElementById('editNoteContent').value = content.replace(/&quot;/g, '"').replace(/\\n/g, '\n');
         if (editModal) editModal.show(); 
     };
-
-    //SAVE EDITED NOTE
-    document.getElementById('editNoteForm').addEventListener('submit', async (event) => {
-        event.preventDefault();
-        const noteId = document.getElementById('editNoteId').value;
-        const newTitle = document.getElementById('editNoteTitle').value;
-        const newContent = document.getElementById('editNoteContent').value;
-
-        try {
-            const response = await fetch(`http://localhost:3000/notes/${noteId}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ userId: currentUserId, title: newTitle, content: newContent })
-            });
-
-            if (response.ok) {
-                if (editModal) editModal.hide(); 
-                fetchMyNotes(); 
-            } else {
-                alert("Failed to update the note!");
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    });
 
     //logout
     logoutBtn.addEventListener('click', () => {
