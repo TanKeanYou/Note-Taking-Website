@@ -1,0 +1,54 @@
+body {
+    background: linear-gradient(135deg, #F8FBFF 0%, #B9DCFF 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.glass-card {
+    background: white; 
+    border: 2px solid #E2F1FF; 
+    box-shadow: 0 20px 40px rgba(29, 53, 115, 0.1);
+    border-radius: 2rem;
+    padding: 3rem 2.5rem;
+    width: 100%;
+    max-width: 420px; 
+}
+
+.pill-input {
+    background: #F8FBFF;
+    border: 1.5px solid #B9DCFF;
+    border-radius: 50px;
+    height: 50px;
+    padding: 0 1.5rem;
+    color: #1D3573;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+    
+.pill-input:focus {
+    background: white;
+    border-color: #5D9FE6;
+    box-shadow: 0 0 0 0.25rem rgba(93, 159, 230, 0.25);
+    outline: none;
+}
+
+.btn-pill {
+    background-color: #1D3573; /* 极具吸引力的深蓝色按钮！ */
+    border: none;
+    border-radius: 50px;
+    height: 50px;
+    font-size: 1.1rem;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.btn-pill:hover {
+    background-color: #5D9FE6;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(93, 159, 230, 0.4);
+}
+
+.text-primary { color: #1D3573 !important; }

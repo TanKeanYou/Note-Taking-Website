@@ -1,0 +1,88 @@
+:root {
+    --bg-lightest: #F8FBFF;
+    --bg-soft: #E2F1FF;
+    --accent-border: #B9DCFF;
+    --brand-blue: #5D9FE6; 
+    --navy-dark: #1D3573;   
+}
+
+body {
+    background-color: var(--bg-lightest);
+    color: var(--navy-dark);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/*Navigation Bar*/
+.navbar-custom {
+    background-color: white;
+    box-shadow: 0 4px 20px rgba(29, 53, 115, 0.08);
+    padding: 1rem 0;
+}
+
+.navbar-custom .navbar-brand {
+    color: var(--navy-dark) !important;
+    font-size: 1.8rem;
+    letter-spacing: 0.5px;
+}
+
+.nav-btn-login {
+    color: var(--brand-blue);
+    font-weight: bold;
+    text-decoration: none;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+}
+.nav-btn-login:hover {
+    color: var(--navy-dark);
+}
+.nav-btn-register {
+    background-color: var(--brand-blue);
+    color: white;
+    font-weight: bold;
+    padding: 10px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid var(--brand-blue);
+}
+.nav-btn-register:hover {
+    background-color: var(--navy-dark);
+    border-color: var(--navy-dark);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(93, 159, 230, 0.4);
+}
+
+/*Hero Section*/
+.hero-section {
+    padding: 100px 0 80px;
+    background: radial-gradient(circle at top, white 0%, var(--bg-lightest) 100%);
+}
+.hero-title {
+    color: var(--navy-dark);
+    font-weight: 900;
+    font-size: 4rem;
+}
+.hero-title span {
+    color: var(--brand-blue);
+}
+
+/*3 Part Features*/
+.feature-card {
+    background-color: white;
+    border: 2px solid var(--bg-soft);
+    border-radius: 1.5rem;
+    padding: 2.5rem 2rem;
+    height: 100%;
+    transition: all 0.4s ease;
+    box-shadow: 0 10px 30px rgba(29, 53, 115, 0.03);
+}
+.feature-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--accent-border);
+    box-shadow: 0 15px 35px rgba(93, 159, 230, 0.15);
+}
+.feature-icon {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+}
